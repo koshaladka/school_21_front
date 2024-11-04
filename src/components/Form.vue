@@ -14,7 +14,7 @@
         </template>
 
         <template #text>
-          <v-form @submit.prevent="submit">
+          <v-form @submit.prevent="submit" ref="form">
             <v-text-field
               v-model="formStore.email"
               label="E-mail"
@@ -52,6 +52,8 @@
 
   const formStore = useFormStore()
 
+  const form = ref(null)
+
   onMounted(() => {
     formStore.getCities()
   })
@@ -63,6 +65,9 @@
 
   const submit = async () => {
     await formStore.submitForm()
+    if (form.value) {
+      form.value.reset()
+    }
     await tableStore.getUsers()
   }
 </script>
